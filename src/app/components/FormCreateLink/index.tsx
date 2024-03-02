@@ -1,23 +1,68 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useForm } from "react-hook-form";
+import {
+  CreateLinkSchemaType,
+  createLinkSchemaResolver,
+} from "./validations/zod/createLinkSchema";
+import { toast } from "sonner";
+import { generateWhatsappLink } from "@/utils/generateWhatsAppLink";
 
 export function FormCreateLink() {
+  const {
+    register,
+    handleSubmit,
+    reset,
+  } = useForm<CreateLinkSchemaType>({
+    resolver: createLinkSchemaResolver,
+  });
+
+  const onSubmit = (data: any) => {
+    const generatedLink = generateWhatsappLink({
+      phone: data.phone,
+      message: data?.textMessage,
+    });
+
+    navigator.clipboard.writeText(generatedLink)
+    
+    toast.success("Link gerado com sucesso!", {
+      action: {
+        label: "Copiar",
+        onClick: () => {
+          navigator.clipboard.writeText(generatedLink);
+          toast.success("Link copiado para a área de transferência!");
+        },
+      },
+    });
+
+    reset();
+  };
+
+
   return (
-    <form action="" className="space-y-4 mt-8 max-w-md">
-      <div>
-        <Label className="text-muted">Número de telefone *</Label>
-        <Input placeholder="(00) 9999-9999" />
+    <form
+      method="post"
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-4 dark mt-8 max-w-md text-muted-foreground"
+    >
+      <div className="space-y-3">
+        <Label>Número de telefone *</Label>
+        <Input {...register("phone")} placeholder="(00) 9999-9999" />
+      </div>
+
+      <div className="space-y-3">
+        <Label>Sua mensagem (opcional)</Label>
+        <Textarea
+          {...register("textMessage")}
+          placeholder="Use esse espaço para a mensagem inicial que será enviada pelo seu link de WhatsApp :)"
+        />
       </div>
 
       <div>
-        <Label className="text-muted">Sua mensagem (opcional)</Label>
-        <Textarea placeholder="Use esse espaço para a mensagem inicial que será enviada pelo seu link de WhatsApp :)" />
-      </div>
-
-      <div>
-        <Button className="w-full bg-transparent text-white" variant="outline">
+        <Button type="submit" className="w-full">
           Gerar Link Grátis
         </Button>
       </div>

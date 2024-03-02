@@ -5,8 +5,9 @@ interface GenerateWhatsAppLinkProps {
 export const generateWhatsappLink = ({
   message,
   phone,
-}: GenerateWhatsAppLinkProps) => {
+}: GenerateWhatsAppLinkProps): string => {
   const baseWhatsAppUrl = "https://api.whatsapp.com/";
 
-  return `${baseWhatsAppUrl}send?phone=${phone}&text=${encodeURIComponent(message)}`;
+  const hasMessage = message ? `&text=${encodeURIComponent(message)}` : "";
+  return `${baseWhatsAppUrl}send?phone=55${phone}${hasMessage}`;
 };
