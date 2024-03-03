@@ -107,7 +107,12 @@ export function FormCreateLink() {
           </CardContent>
 
           <CardFooter>
-            <Button onClick={() => copyToCliboard(textMessage)}>
+            <Button
+              onClick={() => {
+                copyToCliboard(textMessage);
+                toast.success("Link copiado com sucesso")
+              }}
+            >
               Copiar Link
             </Button>
           </CardFooter>
