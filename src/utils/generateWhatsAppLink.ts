@@ -1,5 +1,5 @@
 interface GenerateWhatsAppLinkProps {
-  message: string;
+  message?: string | undefined;
   phone: string;
 }
 export const generateWhatsappLink = ({

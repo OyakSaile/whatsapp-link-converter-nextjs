@@ -3,9 +3,10 @@ import {
   Code2,
   CrownIcon,
   MessageCircle,
-  Save,
+  SaveAll,
 } from "lucide-react";
 import { FormCreateLink } from "./components/FormCreateLink";
+import { Card } from "./components/Card";
 
 export default function Home() {
   return (
@@ -21,29 +22,16 @@ export default function Home() {
       </div>
 
       <div className="bg-black p-3 lg:p-24 dark space-y-4">
-        <div className="flex items-center gap-2 border p-4 rounded-md">
-          <CircleUser size={24} className="text-white" />
-          <h3 className="text-muted-foreground text-md">
-            Converta seus links em mensagens, sem precisar salvar os contatos.
-          </h3>
-        </div>
-
-        <div className="flex items-center gap-2 border p-4 rounded-md">
-          <MessageCircle size={24} className="text-white" />
-          <h3 className="text-muted-foreground text-md">
-            Envie mensagens personalizadas
-          </h3>
-        </div>
-
-        <div className="flex items-center gap-2 border p-4 rounded-md">
-          <Save size={24} className="text-white" />
-          <h3 className="text-muted-foreground text-md">
-            Salve aquele contato de forma rápida para não esquecer
-          </h3>
-        </div>
-
-        <div className="flex items-center gap-2 border p-4 rounded-md">
-          <Code2 size={24} className="text-white" />
+        <Card
+          text="Converta seus links em mensagens, sem precisar salvar os contatos."
+          Icon={CircleUser}
+        />
+        <Card text="Envie mensagens personalizadas" Icon={MessageCircle} />
+        <Card
+          text="Salve aquele contato de forma rápida para não esquecer"
+          Icon={SaveAll}
+        />
+        <Card Icon={Code2}>
           <h3 className="text-muted-foreground text-md">
             Desenvolvido por{" "}
             <a
@@ -54,7 +42,7 @@ export default function Home() {
               Kayo Elias
             </a>
           </h3>
-        </div>
+        </Card>
       </div>
     </main>
   );
