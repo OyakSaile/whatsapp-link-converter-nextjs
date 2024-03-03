@@ -92,7 +92,7 @@ export function FormCreateLink() {
             </h2>
           </CardHeader>
           <CardContent>
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 lg:items-center lg:flex-row flex-col items-start">
               <Link size={44} />
               <div>
                 <h2>Link Gerado com sucesso:</h2>

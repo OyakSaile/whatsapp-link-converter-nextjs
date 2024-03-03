@@ -11,7 +11,7 @@ import { Card } from "./components/Card";
 export default function Home() {
   return (
     <main className="grid dark bg-primary-foreground grid-cols-1 lg:grid-cols-2 min-h-screen">
-      <div className="p-12 lg:p-24">
+      <div className="p-4 lg:p-24">
         <h1 className="text-white text-3xl max-w-md font-bold">
           <CrownIcon className="text-orange-500" /> Zappey
         </h1>
