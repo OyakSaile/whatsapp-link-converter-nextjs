@@ -1,24 +1,25 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { useForm } from "react-hook-form";
-import {
-  CreateLinkSchemaType,
-  createLinkSchemaResolver,
-} from "./validations/zod/createLinkSchema";
-import { toast } from "sonner";
-import { generateWhatsappLink } from "@/utils/generateWhatsAppLink";
-import { copyToCliboard } from "@/utils/copyToCliboard";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { copyToCliboard } from "@/utils/copyToCliboard";
+import { generateWhatsappLink } from "@/utils/generateWhatsAppLink";
 import { Link } from "lucide-react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { useHookFormMask } from "use-mask-input";
+import {
+  CreateLinkSchemaType,
+  createLinkSchemaResolver,
+} from "./validations/zod/createLinkSchema";
 
 export function FormCreateLink() {
   const [textMessage, setTextMessage] = useState<string>("");
@@ -26,6 +27,9 @@ export function FormCreateLink() {
   const { register, handleSubmit, reset } = useForm<CreateLinkSchemaType>({
     resolver: createLinkSchemaResolver,
   });
+
+  const registerWithMask = useHookFormMask(register);
+
   const onSubmit = (data: CreateLinkSchemaType) => {
     const generatedLink = generateWhatsappLink({
       phone: data.phone,
@@ -45,7 +49,6 @@ export function FormCreateLink() {
     });
 
     setTextMessage(generatedLink);
-
     reset();
   };
 
@@ -59,7 +62,13 @@ export function FormCreateLink() {
         >
           <div className="space-y-3">
             <Label>Número de telefone *</Label>
-            <Input {...register("phone")} placeholder="(00) 9999-9999" />
+            <Input
+              {...registerWithMask("phone", "(99) 9999-99999" , {
+                removeMaskOnSubmit: true,
+                autoUnmask: true,
+              })}
+              placeholder="(00) 9999-9999"
+            />
           </div>
 
           <div className="space-y-3">
@@ -110,7 +119,7 @@ export function FormCreateLink() {
             <Button
               onClick={() => {
                 copyToCliboard(textMessage);
-                toast.success("Link copiado com sucesso")
+                toast.success("Link copiado com sucesso");
               }}
             >
               Copiar Link
